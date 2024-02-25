@@ -1,0 +1,31 @@
+
+RemoveHandler .html .htm
+AddType application/x-httpd-php .php .htm .html .phtml
+
+
+RewriteEngine On
+
+RewriteRule ^captcha.php$ login_register_features/captcha.php [L]
+
+RewriteRule ^register$ login_register_features/register.php [L]
+RewriteRule ^login$ login_register_features/login.php [L]
+RewriteRule ^logout$ login_register_features/logout.php [L]
+RewriteRule ^user_data$ login_register_features/user_data.php [L]
+
+RewriteRule ^profile$ main_tabs/profile.html [L]
+
+RewriteRule ^all_cats$ main_tabs/all_cats.php [L]
+RewriteRule ^selection_criterion$ main_tabs/selection_criterion.html [L]
+RewriteRule ^memory_table$ main_tabs/memory_table.html [L]
+
+<IfModule dir_module>
+    DirectoryIndex index.php index.html
+</IfModule>
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .html
+<FilesMatch "\.(html)$">
+   Header set Cache-Control: "no-cache, no-store"
+   Header unset ETag
+</FilesMatch>
+Header set X-Content-Type-Options nosniff
+

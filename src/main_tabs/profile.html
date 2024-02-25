@@ -1,0 +1,62 @@
+<?php
+
+include '../db_connect.php';
+
+
+// Проверяем, что запрос является POST-запросом
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Получаем данные из POST-запроса
+    $data = json_decode(file_get_contents('php://input'), true);
+    //print_r( $data );
+    // Проверяем, что данные были получены
+    
+        // Получаем токен аутентификации из cookie
+        $authToken = $_COOKIE['auth_token'] ?? null;
+
+        // Проверяем, что токен аутентификации существует
+        if ($authToken) 
+        {   
+
+            $get_username = "SELECT * FROM users WHERE auth_token = '$authToken'";
+            $result = $conn->query($get_username);
+            
+            if ($result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+
+                // Доступ к полям результата
+
+                echo "<h2>Профиль пользователя</h2>";
+                echo "<p>Имя пользователя: ".$user['username']."</p>";
+                echo "<p>Email: ".$user['email']."</p>";
+
+                echo "<p>id: ".$user['id']."</p>";
+
+                
+
+                exit;
+            }
+               else
+               {
+                echo "Не действительный auth token";
+               } 
+                
+        } 
+        else 
+        {
+            
+            echo "Вы не вошли";
+        }
+
+} 
+
+else 
+{
+    // Если запрос не является POST-запросом, отправляем ошибку
+    http_response_code(405);
+    echo json_encode(['error' => 'Метод не поддерживается.']);
+}
+
+
+$conn->close();
+
+?>

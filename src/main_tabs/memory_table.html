@@ -1,0 +1,43 @@
+
+<section>
+    <form id="memory_tableForm">
+        
+        <label for="action">Действие:</label>
+        <select id="action" name="action">
+            <option value="add">добавить</option>
+            <option value="delete">удалить</option>
+        </select><br>
+        <input type="button" value="Отправить" onclick="submit_memory_table_form()">
+    </form>
+    
+    
+    <div id="memory_tableForm_result">
+
+        <?php
+        include '../db_connect.php';
+
+        $sql = "SELECT * FROM memory";
+        $result = $conn->query($sql);
+        
+        
+        if ($result->num_rows >  0) {
+            echo "<table><tr><th>ID</th><th>desc</th></tr>";
+            while($row = $result->fetch_assoc()) {
+                echo "<tr><td>" . $row["id"]. "</td><td>" . $row["description"]. "</td></tr>";
+            }
+            echo "</table>";
+        } else {    
+            echo "0 results";
+        }
+        
+        $conn->close();
+        
+        
+        
+        ?>
+
+
+    </div>
+    
+    
+    </section>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>site</title>
+    <link rel="stylesheet" href="styles.css">
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+</head>
+
+
+<body>
+
+
+    <div class="top-bar">
+        <div class="login-form">
+            <form id="login-form">
+                <input class="ru2en" type="text" id="logUsername" name="username" placeholder="Имя пользователя" required>
+                <input class="ru2en" type="password" id="logPassword" name="password" placeholder="Пароль" required>
+                <button type="submit">Войти</button>
+            </form>
+        </div>
+        <button type="button" class="register-btn" id="register-btn" onclick="register_button_press(this)">Регистрация</button>
+    </div>
+    
+
+
+
+    <div class="nav-container">
+        <div class="nav-content">
+            
+            <ul>
+                <li><div class="nav-item" data-page="profile">Мой профиль</div></li>
+                <li><div class="nav-item" data-page="all_cats">Все котики</div></li>
+                <li><div class="nav-item" data-page="selection_criterion" script-page="scripts/selection_criterion.js">Таблица с котиками</div></li>
+                <li><div class="nav-item" data-page="memory_table" script-page="scripts/memory_table.js">Временная таблица</div></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="main-container" id="content">
+        <!-- Содержимое будет загружено через AJAX -->
+    </div>
+
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-btn-reg" onclick="register_button_press(this)">&times;</span>
+            <form id="registration-form">
+                <label for="regUsername">Имя пользователя:</label>
+                <input class="ru2en" type="text" id="regUsername" name="username" required>
+                <label for="regEmail">Email:</label>
+                <input class="ru2en" type="email" id="regEmail" name="email" required>
+                <label for="regPassword">Пароль:</label>
+                <input class="ru2en" type="password" id="regPassword" name="password" required>
+                
+                <div id="captcha" class="captcha-container" >
+                    <img src="captcha.php" alt="Капча">
+                    <input type="text" id="captchaInput" placeholder="Введите цифры с изображения">
+                    <button type="button" onclick="checkCaptcha()">Проверить</button>
+                </div>
+
+                <button style="background-color: #cccccc;  color: #666666; border:  1px solid #999999; cursor: not-allowed; pointer-events: none;" type="submit" id="submit-btn-reg" onclick="register_button_press(this)">Зарегистрироваться </button>
+            </form>
+        </div>
+    </div>
+    
+
+
+    
+
+
+    <script src="script.js"></script>
+
+
+
+</body>
+</html>

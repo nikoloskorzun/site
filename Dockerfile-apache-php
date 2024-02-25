@@ -1,0 +1,35 @@
+FROM php:8.1-apache
+
+# Установка модуля mod_rewrite фтв headers
+RUN a2enmod rewrite
+RUN a2enmod headers
+RUN a2enmod ssl
+
+
+RUN apt-get update && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+
+# Установка необходимых модулей PHP
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+
+# Копирование файла .htaccess в контейнер
+COPY ./src/.htaccess /usr/local/apache2/conf/
+
+# Копирование файлов приложения в контейнер
+COPY ./src /var/www/html/
+
+COPY ./ssl /etc/ssl/
+
+# Обновление конфигурации Apache для использования SSL
+RUN echo '<VirtualHost *:443>' > /etc/apache2/sites-available/000-default.conf
+RUN echo '    ServerName localhost' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    DocumentRoot /var/www/html' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    SSLEngine on' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    SSLCertificateFile /etc/ssl/certs/server.crt' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    SSLCertificateKeyFile /etc/ssl/private/server.key' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '</VirtualHost>' >> /etc/apache2/sites-available/000-default.conf
