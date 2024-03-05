@@ -3,22 +3,28 @@
 
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') 
+{
 
 
 
-include '../db_connect.php';
+    include '../db_connect.php';
 
 
-if (isset($_COOKIE['auth_token'])) {
-    $auth_token = $_COOKIE['auth_token'];
+    if (isset($_COOKIE['auth_token'])) 
+    {
+        $auth_token = $_COOKIE['auth_token'];
 
-    $auth_token = mysqli_real_escape_string($conn, $auth_token);
-    $logout = "UPDATE users SET auth_token = NULL WHERE auth_token = '$auth_token';";
-    $result = $conn->query($logout);
+        // Подготовка SQL запроса
+        $stmt = $conn->prepare("UPDATE users SET auth_token = NULL WHERE auth_token = :auth_token");
 
-}
+        // Привязка параметров
+        $stmt->bindParam(':auth_token', $auth_token);
 
+        // Выполнение запроса
+        $stmt->execute();
 
-$conn->close();
+        session_destroy();
+
+    }
 }

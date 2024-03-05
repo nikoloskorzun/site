@@ -1,0 +1,21 @@
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="close-btn-reg" onclick="register_close_button_press()">&times;</span>
+        <form id="registration-form">
+            <label for="regUsername">Имя пользователя:</label>
+            <input class="ru2en" type="text" id="regUsername" name="username" required>
+            <label for="regEmail">Email:</label>
+            <input class="ru2en" type="email" id="regEmail" name="email" required>
+            <label for="regPassword">Пароль:</label>
+            <input class="ru2en" type="password" id="regPassword" name="password" required>
+            
+            <div id="captcha" class="captcha-container" >
+                    <img id = "captcha-img-id"src="captcha.php" alt="Капча" onclick="get_new_captcha()">
+                <input type="text" id="captchaInput" placeholder="Введите цифры с изображения">
+                <button type="button" onclick="checkCaptcha()">Проверить</button>
+            </div>
+
+            <button style="background-color: #cccccc;  color: #666666; border:  1px solid #999999; cursor: not-allowed; pointer-events: none;" type="button" id="submit-btn-reg" onclick="register()">Зарегистрироваться </button>
+        </form>
+    </div>
+</div>

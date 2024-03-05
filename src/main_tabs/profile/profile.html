@@ -1,0 +1,76 @@
+<?php
+session_start();
+$authToken = $_COOKIE['auth_token'] ?? null;
+$ss = $_SESSION["auth_token"] ?? 1;
+// Проверяем, запущена ли сессия и установлены ли необходимые данные
+if ($ss != $authToken) 
+{
+    echo "Вы не вошли";
+    exit();
+}
+
+$role = $_SESSION["access_rights"];
+
+// Определяем роль пользователя в зависимости от значения
+switch ($role) {
+    case 1:
+        $roleName = "Админ";
+        break;
+    case 2:
+        $roleName = "Пользователь";
+        break;
+    case 3:
+        $roleName = "Врач";
+        break;
+    default:
+        $roleName = "Нет роли";
+}
+
+
+
+?>
+
+    <style>
+
+
+.profile-container {
+    width: 80%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    margin-top: 20px;
+}
+
+.profile-info p {
+    margin-bottom: 10px;
+}
+.profile-info p {
+    margin-bottom: 10px;
+}
+
+
+    </style>
+
+    <div class="profile-container">
+        <h1>Профиль пользователя</h1>
+        <form id="profile-form-id">
+
+        <div class="profile-info">
+            <p><strong>ID:</strong> <?php echo $_SESSION["id"]; ?></p>
+                <p><strong>Имя пользователя:</strong> <input type="text" name="username" value="<?php echo $_SESSION["username"]; ?>"></p>
+                <p><strong>Имя:</strong> <input type="text" name="name" value="<?php echo $_SESSION["name"]; ?>"></p>
+                <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo $_SESSION["email"]; ?>"></p>
+                <p><strong>Телефон:</strong> <input type="tel" name="phone" value="<?php echo $_SESSION["phone"]; ?>"></p>
+                <p><strong>Права доступа:</strong> <?php echo $roleName; ?></p>
+                <button type="button" onclick="edit_user()">Сохранить изменения</button>
+        </div>
+    </form>
+
+    </div>
+
+

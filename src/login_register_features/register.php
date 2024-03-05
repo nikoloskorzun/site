@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 function generate_authtoken($length =  32) 
 {
     // Генерируем случайные байты
@@ -20,21 +20,16 @@ $data = $_POST['text'];
 
 $data = json_decode($data, true);
 // Получение данных из POST-запроса
-$email = mysqli_real_escape_string($conn, $data['email']);
-$username = mysqli_real_escape_string($conn, $data['username']);
-$password_hash = mysqli_real_escape_string($conn, $data['password']);
-
-// Проверка на кооректность данных
-if (empty($email) || empty($username) || empty($password_hash)) {
-    echo json_encode(array("status" => "error", "message" => "All fields are required."));
-    exit;
-}
 
 
-$check_username = "SELECT * FROM users WHERE username = '$username'";
-$result = $conn->query($check_username);
 
-if ($result->num_rows > 0) {
+
+$check_username = "SELECT * FROM users WHERE username = :username";
+$stmt = $conn->prepare($check_username);
+$stmt->execute([':username' => $data['username']]);
+
+if ($stmt->rowCount() > 0) 
+{
     echo json_encode(array("status" => "error", "message" => "Username already exists."));
     exit;
 }
@@ -53,26 +48,29 @@ setcookie('auth_token', $auth_token, [
 ]);
 
 
+$sql = "INSERT INTO users (email, username, password_hash, auth_token) VALUES (:email, :username, :password_hash, :auth_token)";
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+    ':email' => $data['email'],
+    ':username' => $data['username'],
+    ':password_hash' => $data['password'],
+    ':auth_token' => $auth_token
+]);
 
-// Подготовка SQL-запроса
-$sql = "INSERT INTO users (email, username, password_hash, auth_token) VALUES ('$email', '$username', '$password_hash', '$auth_token')";
-
-// Выполнение запроса
-if ($conn->query($sql) === TRUE) 
+if ($stmt->rowCount() > 0) 
 {
-    session_start();
-    
+    include '../add_session_data.php';
+
     echo json_encode(array("status" => "success", "message" => "New record created successfully"));
-}
-else
+} 
+else 
 {
-    echo json_encode(array("status" => "error", "message" => "Error: " . $sql . "<br>" . $conn->error));
+    echo json_encode(array("status" => "error", "message" => "Error: " . $sql . "<br>" . $conn->errorInfo()[2]));
 }
 
 
 
 
-// Закрытие подключения
-$conn->close();
+
 
 }

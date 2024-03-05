@@ -12,11 +12,26 @@ RewriteRule ^login$ login_register_features/login.php [L]
 RewriteRule ^logout$ login_register_features/logout.php [L]
 RewriteRule ^user_data$ login_register_features/user_data.php [L]
 
-RewriteRule ^profile$ main_tabs/profile.html [L]
+RewriteRule ^profile$ main_tabs/profile/profile.html [L]
+RewriteRule ^update_user_info$ main_tabs/profile/update_user_info.php [L]
 
-RewriteRule ^all_cats$ main_tabs/all_cats.php [L]
-RewriteRule ^selection_criterion$ main_tabs/selection_criterion.html [L]
-RewriteRule ^memory_table$ main_tabs/memory_table.html [L]
+RewriteRule ^all_cats$ main_tabs/all_cats/all_cats.php [L]
+RewriteRule ^add_cat$ main_tabs/add_cat/add_cat.html [L]
+RewriteRule ^to_vet$ main_tabs/to_vet/to_vet.php [L]
+
+RewriteRule ^send_bid$ main_tabs/to_vet/add_bid_to_db.php [L]
+RewriteRule ^bids$ main_tabs/bids/bids.html [L]
+
+
+RewriteRule ^get_images$ main_tabs/gallery/get_images.php [L]
+RewriteRule ^healer$ main_tabs/vet/vet.html [L]
+
+RewriteRule ^cat_data$ main_tabs/vet/get_cat_data.php [L]
+
+RewriteRule ^users$ main_tabs/users/users.html [L]
+
+
+
 
 <IfModule dir_module>
     DirectoryIndex index.php index.html
@@ -27,5 +42,17 @@ AddCharset UTF-8 .html
    Header set Cache-Control: "no-cache, no-store"
    Header unset ETag
 </FilesMatch>
+<FilesMatch "\.(php)$">
+    Header set Cache-Control: "no-cache, no-store"
+    Header unset ETag
+ </FilesMatch>
+ <FilesMatch "\.(js)$">
+    Header set Cache-Control: "no-cache, no-store"
+    Header unset ETag
+ </FilesMatch>
+
+
+
 Header set X-Content-Type-Options nosniff
 
+php_value max_input_vars 2000 

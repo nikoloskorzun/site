@@ -1,0 +1,59 @@
+<?php
+
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
+{
+
+
+    $authToken = $_COOKIE['auth_token'] ?? null;
+    $ss = $_SESSION["auth_token"] ?? 1;
+    if ($ss == $authToken) 
+{
+    if($_SESSION["access_rights"] == 2)
+    {
+
+    
+
+
+
+
+include '../../db_connect.php';
+
+    // Создаем соединение с базой данных
+
+    // ID владельца, для которого нужно получить заявки
+    $ownerId = $_SESSION["id"]; // Пример ID владельца
+
+    // Запрос для получения заявок, связанных с котами определенного владельца
+    $sql = "SELECT to_vet.bid_id as bid_id, Cats.ID as cat_id, users.Name as owner_name, Cats.Name as cat_name
+            FROM to_vet
+            JOIN Cats ON to_vet.id_cat = Cats.ID
+            JOIN users ON Cats.Owner_ID = users.id
+            WHERE users.id = :ownerId";
+
+    // Подготовка и выполнение запроса
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ownerId' => $ownerId]);
+
+
+
+
+echo "<h2>Заявки</h2>";
+$results = [];
+while ($row = $stmt->fetch()) {
+    $results[$row['bid_id']][] = $row['cat_name'];
+}
+
+// Вывод таблиц
+foreach ($results as $bid_id => $cat_names) {
+    echo "<h3>Идентификатор заявки: $bid_id</h3>";
+    echo "<table border='1'>";
+    echo "<tr><th>Кличка</th></tr>";
+    foreach ($cat_names as $cat_name) {
+        echo "<tr><td>$cat_name</td></tr>";
+    }
+    echo "</table><br>";
+}
+
+}}}
+?>

@@ -1,0 +1,59 @@
+<?php
+    session_start();
+
+    if($_SESSION["access_rights"] > 2)
+    {
+        echo "У вас недостаточно прав на просмотр этой страницы";   
+    exit;
+    }
+?>
+
+
+    <form id="add_cat-form-id" enctype="multipart/form-data">
+        <label for="name">Кличка:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="breed">Порода:</label>
+        <select id="breed" name="breed">
+
+
+            <?php
+            include '../../db_connect.php';
+
+
+
+            $sql = "SELECT id, Name FROM Breeds";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!empty($result)) 
+            {
+             // Вывод данных каждой строки
+                foreach($result as $row) 
+                {
+                    echo "<option value='" .$row["id"]."'>" .$row["Name"]."</option>";
+                }
+            } 
+
+
+            ?>
+            
+            <!-- Добавьте другие породы по желанию -->
+        </select><br>
+
+        <label for="birthdate">Дата рождения:</label>
+        <input type="date" id="birthdate" name="birthdate" required><br>
+
+        <label for="gender">Пол:</label>
+        <select id="gender" name="gender">
+            <option value="m">Мужской</option>
+            <option value="f">Женский</option>
+        </select><br>
+
+        <label for="image">Изображение:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br>
+
+        <input type="button" value="Сохранить" onclick="submit_add_cat()">
+    </form>
+
+<div id="result-addcat-div-id"></div>

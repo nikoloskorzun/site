@@ -4,10 +4,16 @@ $username = "user";
 $password = "userpassword";
 $dbname = "mydatabase";
 
-// Создание подключения
-$conn = new mysqli($servername, $username, $password, $dbname);
-$conn->set_charset("utf8mb4");
-// Проверка подключения
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+
+
+// Создание подключения с использованием PDO
+try 
+{
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
+    // Установка режима ошибок PDO на исключения
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+} catch(PDOException $e) 
+{
+    //$e->getMessage();
 }

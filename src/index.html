@@ -8,6 +8,9 @@
     <title>site</title>
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script async src="scripts/ru2en.js"></script>
+    <script async src="scripts/login.js"></script>
+    <script async src="scripts/load_functions.js"></script>
 
 </head>
 
@@ -20,10 +23,10 @@
             <form id="login-form">
                 <input class="ru2en" type="text" id="logUsername" name="username" placeholder="Имя пользователя" required>
                 <input class="ru2en" type="password" id="logPassword" name="password" placeholder="Пароль" required>
-                <button type="submit">Войти</button>
+                <button type="button" onclick="login()">Войти</button>
             </form>
         </div>
-        <button type="button" class="register-btn" id="register-btn" onclick="register_button_press(this)">Регистрация</button>
+        <button type="button" class="register-btn" id="register-btn" onclick="load_reg_window()">Регистрация</button>
     </div>
     
 
@@ -33,10 +36,18 @@
         <div class="nav-content">
             
             <ul>
-                <li><div class="nav-item" data-page="profile">Мой профиль</div></li>
-                <li><div class="nav-item" data-page="all_cats">Все котики</div></li>
-                <li><div class="nav-item" data-page="selection_criterion" script-page="scripts/selection_criterion.js">Таблица с котиками</div></li>
-                <li><div class="nav-item" data-page="memory_table" script-page="scripts/memory_table.js">Временная таблица</div></li>
+                <li><div class="nav-item" data-page="main_tabs/default.html">Главная страница</div></li>
+
+                <li class="admin_ user_ vet_" hidden><div class="nav-item" data-page="main_tabs/profile/profile.html" script-page="main_tabs/profile/profile.js" script-id="profile-script-id">Мой профиль</div></li>
+                <li class="admin_ user_" hidden><div class="nav-item" data-page="all_cats" script-page="main_tabs/all_cats/all_cats.js" script-id="all_cats-script-id">Все котики</div></li>
+                <li><div class="nav-item" data-page="main_tabs/gallery/gallery.html" script-page="main_tabs/gallery/gallery.js" script-id="gallery-script-id">Галерея</div></li>
+                <li class="user_" hidden><div class="nav-item" data-page="add_cat" script-page="main_tabs/add_cat/add_cat.js" script-id="add_cat-script-id">Добавить котика</div></li>
+                <li class="user_" hidden><div class="nav-item" data-page="to_vet" script-page="main_tabs/to_vet/to_vet.js" script-id="to_vet-script-id">Записаться к врачу</div></li>
+                <li class="user_" hidden><div class="nav-item" data-page="bids">Заявки</div></li>
+                <li class="vet_" hidden><div class="nav-item" data-page="healer" script-page="main_tabs/vet/vet.js" script-id="vet-script-id" id="bids_healer-id">Заявки</div></li>
+                <li class="admin_" hidden><div class="nav-item" data-page="users" script-page="main_tabs/users/users.js" script-id="users-script-id" >Пользователи</div></li>
+
+                <!--   -->
             </ul>
         </div>
     </div>
@@ -47,27 +58,7 @@
     </div>
 
 
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="close-btn-reg" onclick="register_button_press(this)">&times;</span>
-            <form id="registration-form">
-                <label for="regUsername">Имя пользователя:</label>
-                <input class="ru2en" type="text" id="regUsername" name="username" required>
-                <label for="regEmail">Email:</label>
-                <input class="ru2en" type="email" id="regEmail" name="email" required>
-                <label for="regPassword">Пароль:</label>
-                <input class="ru2en" type="password" id="regPassword" name="password" required>
-                
-                <div id="captcha" class="captcha-container" >
-                    <img src="captcha.php" alt="Капча">
-                    <input type="text" id="captchaInput" placeholder="Введите цифры с изображения">
-                    <button type="button" onclick="checkCaptcha()">Проверить</button>
-                </div>
 
-                <button style="background-color: #cccccc;  color: #666666; border:  1px solid #999999; cursor: not-allowed; pointer-events: none;" type="submit" id="submit-btn-reg" onclick="register_button_press(this)">Зарегистрироваться </button>
-            </form>
-        </div>
-    </div>
     
 
 
@@ -75,6 +66,7 @@
 
 
     <script src="script.js"></script>
+
 
 
 

@@ -2,7 +2,6 @@
 
 //session_set_cookie_params(180);
 session_start();
-
 // Функция для генерации изображения с капчей
 function generateCaptcha() 
 {
@@ -34,15 +33,18 @@ function generateCaptcha()
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    echo "success";
-    exit();
+    //echo "success";
+    //exit();
 // Проверка капчи
     if (isset($_POST['captcha'])) {
 
         
-        if ($_POST['captcha'] == $_SESSION['captcha']) {
+        if ($_POST['captcha'] == $_SESSION['captcha']) 
+        {
             echo "success";
-        } else {
+            $_SESSION['captcha'] = "success";
+        } else 
+        {
             echo "not success";
         }
     }

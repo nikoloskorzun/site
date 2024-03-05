@@ -1,0 +1,150 @@
+<?php
+
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
+{
+
+
+    $authToken = $_COOKIE['auth_token'] ?? null;
+    $ss = $_SESSION["auth_token"] ?? 1;
+    if ($ss == $authToken) 
+{
+    if($_SESSION["access_rights"] == 3)
+    {
+
+    
+
+
+
+
+include '../../db_connect.php';
+
+    // Создаем соединение с базой данных
+
+    // ID владельца, для которого нужно получить заявки
+    $ownerId = 1; // Пример ID владельца
+
+    // Запрос для получения заявок, связанных с котами определенного владельца
+    $sql = "SELECT to_vet.id as bid_cat_id, to_vet.bid_id as bid_id, Cats.ID as cat_id, users.Name as owner_name, Cats.Name as cat_name
+            FROM to_vet
+            JOIN Cats ON to_vet.id_cat = Cats.ID
+            JOIN users ON Cats.Owner_ID = users.id";
+
+    // Подготовка и выполнение запроса
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+
+
+
+echo "<h2>Заявки</h2>";
+$results = [];
+while ($row = $stmt->fetch()) {
+    $results[$row['bid_id']][] =array($row['cat_name'], $row['bid_cat_id']) ;
+    
+}
+$tt = 2;
+
+//print_r($results);
+
+// Вывод таблиц
+foreach ($results as $bid_id => $cat_names) {
+    echo "<h3>Идентификатор заявки: $bid_id</h3>";
+    echo "<table border='1'>";
+    echo "<tr><th>Кличка</th></tr>";
+    foreach ($cat_names as $cat_name) {
+        echo "<tr><td onclick='create_medical_record(" .$cat_name[1]. ")'>$cat_name[0]</td></tr>";
+    }
+    echo "</table><br>";
+}
+
+}}}
+?>
+
+
+
+
+
+
+<style>
+    /* Стили для модального окна */
+    .modal {
+        display: none; /* По умолчанию скрыто */
+        position: fixed; /* Фиксированное позиционирование */
+        z-index: 1; /* Положение поверх всех других элементов */
+        left: 0;
+        top: 0;
+        width: 100%; /* Полная ширина */
+        height: 100%; /* Полная высота */
+        overflow: auto; /* Включить прокрутку, если нужно */
+        background-color: rgba(0,0,0,0.4); /* Черный фон с прозрачностью */
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% от верхней части экрана и центрирование */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%; /* Ширина модального окна */
+    }
+    img {
+     width: 80px;
+     height: auto;
+     margin: 5px;
+     cursor: pointer;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+<div id="myModal" class="modal">
+
+    <!-- Содержимое модального окна -->
+    <div class="modal-content">
+
+        
+       <span class="close">&times;</span>
+
+       <table>
+        <tr>
+            <td id="cat-info-img-id"></td> 
+
+            <td>
+            <form id="medicalForm">
+                <label for="cat_id">Идентификатор кота:</label><br>
+              <input type="text" id="cat_id" name="cat_id" disabled><br>
+              <label for="description">Описание:</label><br>
+              <input type="text" id="description" name="description"><br>
+              <label for="weight">Вес:</label><br>
+              <input type="text" id="weight" name="weight"><br>
+              <button type="button" id="summit_mf-button-id">Добавить</button>
+            </form>
+        </td>
+    </tr>
+        
+        <tr><td id="cat-info-name-id"></td></tr>
+        
+
+        </table>
+    </div>
+   
+   </div>
+
+
+
+
+
+
+
+
+
