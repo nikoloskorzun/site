@@ -2,103 +2,38 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Магазин</title>
+    <title>Форма ввода даты и времени</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-}
-
-#products {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.product {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    width: 200px;
-    text-align: center;
-}
-
-#cart {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 300px;
-    border-left: 1px solid #ccc;
-    padding: 10px;
-    background-color: #f9f9f9;
-}
-
-#cartItems {
-    list-style-type: none;
-    padding: 0;
-}
-
-#cartItems li {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 0;
-}
-
-        </style>
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Магазин</h1>
-    <div id="products">
-        <!-- Здесь будут товары -->
-    </div>
-    <div id="cart">
-        <h2>Корзина</h2>
-        <ul id="cartItems"></ul>
-        <button id="checkout">Перейти к оформлению заказа</button>
-    </div>
-    <script >
 
-    // Пример товаров
-    const products = [
-        { id: 1, name: 'Товар 1', price: 100 },
-        { id: 2, name: 'Товар 2', price: 200 },
-        { id: 3, name: 'Товар 3', price: 300 },
-    ];
+<div class="container">
+    <h2>Выберите дату и время</h2>
+    <form>
+        <label for="datetime">Дата и время:</label>
+        <input type="datetime-local" id="datetime" name="datetime" step="3600">
+        <br>
+        <button type="submit">Отправить</button>
+    </form>
+</div>
 
-    // Функция для отображения товаров
-    function displayProducts() {
-        const productsContainer = document.getElementById('products');
-        products.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('product');
-            productDiv.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>Цена: ${product.price} руб.</p>
-                <button onclick="addToCart(${product.id})">Добавить в корзину</button>
-            `;
-            productsContainer.appendChild(productDiv);
-        });
-    }
-
-    // Функция для добавления товара в корзину
-    function addToCart(productId) {
-        const product = products.find(p => p.id === productId);
-        if (product) {
-            const cartItems = document.getElementById('cartItems');
-            const listItem = document.createElement('li');
-            listItem.textContent = `${product.name} - ${product.price} руб.`;
-            cartItems.appendChild(listItem);
-        }
-    }
-
-    // Функция для оформления заказа
-    document.getElementById('checkout').addEventListener('click', function() {
-        alert('Заказ оформлен!');
-        // Здесь можно добавить логику для обработки заказа
+<script>
+    // Пример JavaScript кода, который может быть использован для обработки формы
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+        const datetime = document.getElementById('datetime').value;
+        alert('Выбранная дата и время: ' + datetime);
     });
+</script>
 
-    displayProducts();
-
-
-
-    </script>
 </body>
 </html>

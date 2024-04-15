@@ -26,6 +26,8 @@ body {
 .main-container {
     margin-left:  200px;
     padding:  20px;
+    min-height: 100vh;
+    
 }
 
 .nav-item {
@@ -78,3 +80,20 @@ button:hover {
 }
 
 
+footer {
+    margin-left: 200px;
+    
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;;
+            
+            
+
+}
+.footer-data {
+    margin-left: 20px;
+}
+
+h2.page-header {
+    text-align: center;
+}

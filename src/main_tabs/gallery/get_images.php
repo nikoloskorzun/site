@@ -3,7 +3,14 @@ include '../../db_connect.php';
 
 
 
-$sql = "SELECT ID, Name, image FROM Cats";
+//$sql = "SELECT ID, Name, image FROM Cats";
+
+$sql = "SELECT Cats.ID, Cats.Name, Cats.image
+FROM Cats
+JOIN users ON Cats.Owner_ID = users.id
+WHERE users.cat_visible = TRUE;
+";
+
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

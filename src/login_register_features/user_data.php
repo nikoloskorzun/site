@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET')
         {
             include '../add_session_data.php';
 
-            echo json_encode(['status' => "success", 'email' => $user['email'], 'username' => $user['username'], 'access_rights' => $user['access_rights']]);
+            echo json_encode(['status' => "success", 'email' => $user['email'], 'username' => $user['username'], 'access_rights' => $user['access_rights'],'cat_visible' => $user['cat_visible'] ]);
         } 
         else
         {

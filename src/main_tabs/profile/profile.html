@@ -61,11 +61,14 @@ switch ($role) {
         <form id="profile-form-id">
 
         <div class="profile-info">
+            
             <p><strong>ID:</strong> <?php echo $_SESSION["id"]; ?></p>
                 <p><strong>Имя пользователя:</strong> <input type="text" name="username" value="<?php echo $_SESSION["username"]; ?>"></p>
                 <p><strong>Имя:</strong> <input type="text" name="name" value="<?php echo $_SESSION["name"]; ?>"></p>
                 <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo $_SESSION["email"]; ?>"></p>
                 <p><strong>Телефон:</strong> <input type="tel" name="phone" value="<?php echo $_SESSION["phone"]; ?>"></p>
+                <p><strong>Разрешить отбражение ваших питомцев:</strong> <input type="checkbox" <?php if($_SESSION["cat_visible"]) echo "checked" ?>  name="cat_visible" id="cat-visible-id" value="<?php echo $_SESSION["cat_visible"]; ?>"></p>
+
                 <p><strong>Права доступа:</strong> <?php echo $roleName; ?></p>
                 <button type="button" onclick="edit_user()">Сохранить изменения</button>
         </div>

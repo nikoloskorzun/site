@@ -35,13 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!empty($result)) {
                     echo "<table border='1' id='allCats-table-id'>
                         <tr>
-                            <th onclick='sortTable(0)'>Cat Name</th>
-                            <th onclick='sortTable(1)'>Breed Name</th>
-                            <th onclick='sortTable(2)'>Owner Name</th>
-                            <th onclick='sortTable(3)'>Date of Birth</th>
-                            <th onclick='sortTable(4)'>Date of Visit</th>
-                            <th onclick='sortTable(5)'>Description</th>
-                            <th onclick='sortTable(6)'>Weight</th>
+                            <th onclick='sortTable(0)'>Кличка</th>
+                            <th onclick='sortTable(1)'>Порода</th>
+                            <th onclick='sortTable(2)'>Имя владельца</th>
+                            <th onclick='sortTable(3)'>Дата рождения</th>
+                            <th onclick='sortTable(4)'>Дата визита к врачу</th>
+                            <th onclick='sortTable(5)'>Описание</th>
+                            <th onclick='sortTable(6)'>Вес</th>
                             <th>Image</th>
                         </tr>";
                     foreach ($result as $row) {
@@ -75,15 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if (!empty($res)) {
-                    echo "<h2>".$result['name']."</h2>";
+                    echo "<h2>".$result['name']." - владелец</h2>";
                     echo "<table border='1' id='allCats-table-id'>
                         <tr>
-                            <th onclick='sortTable(0)'>Cat Name</th>
-                            <th onclick='sortTable(1)'>Breed Name</th>
-                            <th onclick='sortTable(2)'>Date of Birth</th>
-                            <th onclick='sortTable(3)'>Date of Visit</th>
-                            <th onclick='sortTable(4)'>Description</th>
-                            <th onclick='sortTable(5)'>Weight</th>
+                            <th onclick='sortTable(0)'>Кличка</th>
+                            <th onclick='sortTable(1)'>Порода</th>
+                            <th onclick='sortTable(2)'>Дата рождения</th>
+                            <th onclick='sortTable(3)'>Дата визита к врачу</th>
+                            <th onclick='sortTable(4)'>Описание</th>
+                            <th onclick='sortTable(5)'>Вес</th>
                             <th>Image</th>
                         </tr>";
                     foreach ($res as $row) {

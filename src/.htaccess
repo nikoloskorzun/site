@@ -29,7 +29,9 @@ RewriteRule ^healer$ main_tabs/vet/vet.html [L]
 RewriteRule ^cat_data$ main_tabs/vet/get_cat_data.php [L]
 
 RewriteRule ^users$ main_tabs/users/users.html [L]
+RewriteRule ^contacts$ main_tabs/contacts/contacts.html [L]
 
+RewriteRule ^work_hours$ main_tabs/work_hours/work_hours.html [L]
 
 
 

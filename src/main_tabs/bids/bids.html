@@ -25,10 +25,12 @@ include '../../db_connect.php';
     $ownerId = $_SESSION["id"]; // Пример ID владельца
 
     // Запрос для получения заявок, связанных с котами определенного владельца
-    $sql = "SELECT to_vet.bid_id as bid_id, Cats.ID as cat_id, users.Name as owner_name, Cats.Name as cat_name
+    $sql = "SELECT to_vet.bid_id as bid_id, Cats.ID as cat_id, users.Name as owner_name, Cats.Name as cat_name, to_vet.rasp_id as rasp_id, rasp.data_time as data_time,	rasp.rasp_unit_id 	
             FROM to_vet
             JOIN Cats ON to_vet.id_cat = Cats.ID
             JOIN users ON Cats.Owner_ID = users.id
+            JOIN rasp ON to_vet.rasp_id = rasp.rasp_unit_id
+
             WHERE users.id = :ownerId";
 
     // Подготовка и выполнение запроса
@@ -40,20 +42,147 @@ include '../../db_connect.php';
 
 echo "<h2>Заявки</h2>";
 $results = [];
+$times = [];
 while ($row = $stmt->fetch()) {
     $results[$row['bid_id']][] = $row['cat_name'];
+    $times[$row['bid_id']][] = $row['data_time'];
 }
 
 // Вывод таблиц
 foreach ($results as $bid_id => $cat_names) {
     echo "<h3>Идентификатор заявки: $bid_id</h3>";
+    $tt = ($times[$bid_id][0]);
+    echo "<h3>Вы записаны на: $tt</h3>";
+    //print_r($times[$bid_id][0]);
     echo "<table border='1'>";
     echo "<tr><th>Кличка</th></tr>";
     foreach ($cat_names as $cat_name) {
         echo "<tr><td>$cat_name</td></tr>";
     }
     echo "</table><br>";
+
+
+
+    
+
+          
+    
+
+
+    
 }
 
+$sql = "SELECT r.data_time
+FROM rasp r
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM to_vet v
+    WHERE v.rasp_id = r.rasp_unit_id
+);
+";
+
+// Подготовка и выполнение запроса
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+
+
+
+$TIMES = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//print_r($TIMES);
+
+
+
+
+
+$datesWithTimes = array();
+
+foreach ($TIMES as $row) {
+    
+    $dateOnly = date('Y-m-d', strtotime($row["data_time"]));
+    $timeOnly = date('H:i:s', strtotime($row["data_time"]));
+    
+    // Добавление времени в массив, соответствующий дате
+    if (!isset($datesWithTimes[$dateOnly])) {
+        $datesWithTimes[$dateOnly] = array($timeOnly);
+    } else {
+        $datesWithTimes[$dateOnly][] = $timeOnly;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+// Запрос для получения заявок, связанных с котами определенного владельца
+$sql = "SELECT to_vet.bid_id as bid_id, Cats.ID as cat_id, users.Name as owner_name, Cats.Name as cat_name, to_vet.rasp_id as rasp_id 	
+            FROM to_vet
+            JOIN Cats ON to_vet.id_cat = Cats.ID
+            JOIN users ON Cats.Owner_ID = users.id
+            
+
+            WHERE users.id = :ownerId  AND to_vet.rasp_id IS NULL";
+
+// Подготовка и выполнение запроса
+$stmt = $conn->prepare($sql);
+$stmt->execute([':ownerId' => $ownerId]);
+
+
+
+$results = [];
+while ($row = $stmt->fetch()) {
+$results[$row['bid_id']][] = $row['cat_name'];
+}
+
+// Вывод таблиц
+foreach ($results as $bid_id => $cat_names) {
+echo "<h3>Идентификатор заявки: $bid_id</h3>";
+echo "<table border='1'>";
+echo "<tr><th>Кличка</th></tr>";
+foreach ($cat_names as $cat_name) {
+    echo "<tr><td>$cat_name</td></tr>";
+}
+
+echo "</table><br>";
+
+
+
+
+
+    echo '<form id="data-choice-form">
+        <label for="data-select">Выберите дату:</label>
+<select name="data-select" id="data-select-id">';
+
+
+    foreach ($datesWithTimes as $date => $time) {
+    
+        
+        echo "<option>$date</option>";
+    }
+
+    echo '</select>
+<label for="data-select">Выберите время:</label>
+
+<select name="time-select" id="time-select-id">';
+
+    foreach ($datesWithTimes as $date => $time) {
+    
+        foreach($time as $t)
+        echo "<option>$t</option>";
+    }
+
+
+
+    echo '
+</select>
+    </form>';
+
+    
+
+}
 }}}
 ?>

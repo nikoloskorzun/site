@@ -69,16 +69,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 if (!empty($res)) {
-                    echo "<h2>".$result['name']."</h2>";
+                    echo "<h2 class='page-header'>".$result['name']." - питомцы</h2>";
                     echo "<style>.no-border {border: none;} </style>";
                     echo "<table border='1' id='to_vet-table-id'>
                         <tr>
-                            <th onclick='sortTable(0)'>Cat Name</th>
-                            <th onclick='sortTable(1)'>Breed Name</th>
-                            <th onclick='sortTable(2)'>Date of Birth</th>
+                            <th onclick='sortTable(0)'>Кличка</th>
+                            <th onclick='sortTable(1)'>Порода</th>
+                            <th onclick='sortTable(2)'>Дата рождения</th>
 
-                            <th>Image</th>
-                            <th class='no-border'>Описание</th>
+                            <th>Изображение</th>
+                            <th class='no-border'>Действие</th>
 
                         </tr>";
                     foreach ($res as $row) {

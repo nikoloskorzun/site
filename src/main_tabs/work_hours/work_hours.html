@@ -1,0 +1,59 @@
+
+
+
+<form action="work_hours" method="post" id="admin1_form-id">
+    <label for="numberInput">Введите VET ID:</label><br>
+    <input type="number" id="numberInput" name="numberInput" required><br>
+    <label for="dateInput">Выберите дату:</label><br>
+    <input type="date" id="dateInput" name="dateInput" required><br>
+    <input type="button" value="Отправить" onclick="submit_admin1_form()">
+</form>
+
+
+
+<?php
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+    if (!isset($_POST['dateInput']))
+        exit;
+include '../../db_connect.php';
+
+
+$datetime = $_POST['dateInput'];
+$vet_id = 0;
+$vet_id = $_POST['numberInput'];
+
+
+    
+
+    // Начальное время
+    $startTime = new DateTime($datetime .' 10:00');
+    // Конечное время
+    $endTime = new DateTime($datetime . '18:00');
+    // Шаг в 1 час
+    $interval = new DateInterval('PT1H');
+
+    // Создаем периоды времени с шагом в 1 час
+    $period = new DatePeriod($startTime, $interval, $endTime);
+
+    // Подготавливаем запрос для вставки данных
+    $stmt = $conn->prepare("INSERT INTO rasp (data_time, vet_id) VALUES (:data_time, :vet_id)");
+
+    // Итерация по периодам времени
+    foreach ($period as $dt) {
+        // Примерное значение vet_id, здесь можно использовать любую логику
+        
+
+        // Выполняем вставку данных
+        $stmt->execute(['data_time' => $dt->format('Y-m-d H:i:s'), 'vet_id' => $vet_id]);
+    }
+
+    echo "Таблица успешно заполнена.";
+
+}
+?>
+
+

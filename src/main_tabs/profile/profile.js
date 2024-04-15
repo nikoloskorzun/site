@@ -4,7 +4,16 @@ function edit_user()
     //remove_element('profile-script-id');
 
     form = document.getElementById("profile-form-id");
+    
     let o = form2json_o(form);
+    el = document.getElementById("cat-visible-id")
+    el.value = 0;
+    if(el.checked)
+
+        el.value = 1;
+    
+    o.cat_visible = el.value;
+    console.log(o)
     let json = JSON.stringify(o);
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/update_user_info', true);

@@ -61,6 +61,17 @@ if ($stmt->rowCount() > 0)
 {
     include '../add_session_data.php';
 
+
+    
+
+    include "../mail_features/send_email.php";
+
+    send_email($data['email'], "Welcome", "Спасибо что зарегистрировались на на нашем портале.", 'from@example.com');
+
+
+
+    
+
     echo json_encode(array("status" => "success", "message" => "New record created successfully"));
 } 
 else 

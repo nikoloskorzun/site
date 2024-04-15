@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>site</title>
     <link rel="stylesheet" href="styles.css">
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script async src="scripts/crypto-js.min.js"></script>
     <script async src="scripts/ru2en.js"></script>
     <script async src="scripts/login.js"></script>
     <script async src="scripts/load_functions.js"></script>
@@ -41,12 +41,13 @@
                 <li class="admin_ user_ vet_" hidden><div class="nav-item" data-page="main_tabs/profile/profile.html" script-page="main_tabs/profile/profile.js" script-id="profile-script-id">Мой профиль</div></li>
                 <li class="admin_ user_" hidden><div class="nav-item" data-page="all_cats" script-page="main_tabs/all_cats/all_cats.js" script-id="all_cats-script-id">Все котики</div></li>
                 <li><div class="nav-item" data-page="main_tabs/gallery/gallery.html" script-page="main_tabs/gallery/gallery.js" script-id="gallery-script-id">Галерея</div></li>
-                <li class="user_" hidden><div class="nav-item" data-page="add_cat" script-page="main_tabs/add_cat/add_cat.js" script-id="add_cat-script-id">Добавить котика</div></li>
+                <li class="user_" hidden><div class="nav-item" data-page="add_cat" script-page="main_tabs/add_cat/add_cat.js" script-id="add_cat-script-id">Создать вет-карточку</div></li>
                 <li class="user_" hidden><div class="nav-item" data-page="to_vet" script-page="main_tabs/to_vet/to_vet.js" script-id="to_vet-script-id">Записаться к врачу</div></li>
-                <li class="user_" hidden><div class="nav-item" data-page="bids">Заявки</div></li>
+                <li class="user_" hidden><div class="nav-item" data-page="bids" script-page="main_tabs/bids/bids.js" script-id="bids-script-id">Заявки</div></li>
                 <li class="vet_" hidden><div class="nav-item" data-page="healer" script-page="main_tabs/vet/vet.js" script-id="vet-script-id" id="bids_healer-id">Заявки</div></li>
                 <li class="admin_" hidden><div class="nav-item" data-page="users" script-page="main_tabs/users/users.js" script-id="users-script-id" >Пользователи</div></li>
-
+                <li><div class="nav-item" data-page="contacts">Контакты</div></li>
+                <li class="admin_" hidden><div class="nav-item" data-page="work_hours" script-page="main_tabs/work_hours/work_hours.js" script-id="work_hours-script-id">Админка 1</div></li>
                 <!--   -->
             </ul>
         </div>
@@ -61,7 +62,9 @@
 
     
 
-
+    <footer>
+        <p class="footer-data">&copy; 2024 Вет-клиника. Все права защищены.</p>
+    </footer>
     
 
 

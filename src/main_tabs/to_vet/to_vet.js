@@ -62,7 +62,7 @@ function send_bid()
                 sessionStorage.clear();
                 let bidItems = document.getElementById('bidItems');
 
-                bidItems.innerHTML = "Заявка отправлена";
+                bidItems.innerHTML = "Заявка отправлена. Уточните удобное время в заявках";
             }
 
 
@@ -95,8 +95,8 @@ function to_vet(cat_id)
     if(el)
     {
         let vvv= Number(el)+1;
-        if(vvv > 3) 
-            vvv = 3;
+        if(vvv > 1) 
+            vvv = 1;
         sessionStorage.setItem(cat_id, vvv);
     }
     else
@@ -139,7 +139,7 @@ function bid_draw()
             
             listItem.onclick = () => {decrease_cat_bids(key)};
             let name = key.split(":")[1];
-            listItem.textContent = `${name} записан ${value} раз`;
+            listItem.textContent = `${name} записан`;
             bidItems.appendChild(listItem);
 
 

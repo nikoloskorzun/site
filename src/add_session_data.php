@@ -20,5 +20,5 @@
     $_SESSION["phone"] = $user1["phone"];
     $_SESSION["auth_token"] = $user1["auth_token"];
     $_SESSION["access_rights"] = $user1["access_rights"];
-
+    $_SESSION["cat_visible"] = $user1["cat_visible"];
 }

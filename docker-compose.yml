@@ -42,6 +42,15 @@ services:
       - my_bridge_network
     container_name: phpmyadmin
 
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    networks:
+      - my_bridge_network
+    container_name: mailapi
+
 volumes:
   db_data:
 
